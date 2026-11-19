@@ -1,10 +1,10 @@
 <!-- animated-project-banner -->
-<p align="center"><picture><source media="(max-width: 600px)" srcset="assets/project-banner-mobile.svg"><img src="assets/project-banner.svg" width="100%" alt="DuetPro — your coding agents, one workspace"></picture></p>
+<p align="center"><picture><source media="(max-width: 600px)" srcset="assets/project-banner-mobile.svg"><img src="assets/project-banner.svg" width="100%" alt="Sumparo — your coding agents, one workspace"></picture></p>
 <!-- /animated-project-banner -->
 
 <div align="center">
 
-# DuetPro — Agent Fleets for Code
+# Sumparo — Agent Fleets for Code
 
 #### Every coding agent in one window.
 #### One task, split across a whole fleet, one result back.
@@ -27,15 +27,17 @@
 
 ## Overview
 
-DuetPro is a desktop app for coding agents on macOS, Windows and Linux. You can
+Sumparo is a desktop app for coding agents on macOS, Windows and Linux. You can
 switch agents in the middle of a chat, or hand a large task to an agent that
 divides it, waits for its fleet and assembles the result. A live graph shows
 who started whom and what each agent is doing.
 
 A native iPhone app follows the same work over a private Tailscale network.
 
-DuetPro started from the code of Duet by [Anton](https://github.com/alhimikix)
-and has grown into its own product.
+Sumparo is built on Duet, a desktop app by [Anton](https://github.com/alhimikix).
+Duet already had the shared event protocol, the Claude Code, Codex, Antigravity
+and Gemini adapters, switching agents mid-chat and a basic worktree module.
+My work is what is built on top of that base (see My Role).
 
 > This repository documents the system at the **architectural level**.
 > Implementation code is private.
@@ -46,11 +48,13 @@ and has grown into its own product.
 
 > **Lead Engineer.** Fleet orchestration, security and the product built on top.
 
-- Fleet engine: queue, agent tree, worktrees, result collection
-- Security audit and hardening of the base app
-- Adapters for each coding agent
+- Fleet engine: queue, agent tree, result collection
+- A separate worktree for every writing agent, reviewed before merge
+- Proof of done checked against recorded runs
+- Project memory, briefs and a production watchdog
+- Cursor adapter
 - Native iPhone app and phone server
-- Proof of done, production watchdog, briefs and project memory
+- Security audit and hardening of the base app
 
 ---
 
@@ -102,11 +106,11 @@ flowchart TB
 
 ### 1. No model and no keys of its own
 
-DuetPro drives CLIs that are already installed and signed in, so everything runs
+Sumparo drives CLIs that are already installed and signed in, so everything runs
 on the subscriptions the user already has. The cost is tracking every CLI's
 behaviour as it changes.
 
-### 2. One event protocol for every provider
+### 2. One event protocol for every provider (from Duet)
 
 Each provider translates its stream into a shared protocol. The interface only
 knows that protocol, so a new agent does not change the UI.
